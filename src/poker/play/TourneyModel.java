@@ -56,7 +56,7 @@ public class TourneyModel extends Observable {
 	/**
 	 * Moves to the next action in the current match.
 	 */
-	public void nextAction() {
+	public void nextActionPoint() {
 		try {
 			currentMatch().next();
 			setChanged();
@@ -69,7 +69,7 @@ public class TourneyModel extends Observable {
 	/**
 	 * Moves to the previous action in the current match.
 	 */
-	public void previousAction() {
+	public void previousActionPoint() {
 		try {
 			currentMatch().previous();
 			setChanged();
@@ -82,8 +82,8 @@ public class TourneyModel extends Observable {
 	/**
 	 * @return the current action to be made
 	 */
-	public Action getAction() {
-		return currentMatch().getAction();
+	public ActionPoint getActionPoint() {
+		return currentMatch().getActionPoint();
 	}
 
 	/**
@@ -110,15 +110,15 @@ public class TourneyModel extends Observable {
 	/**
 	 * @return true if this is the first action of the current match; false otherwise
 	 */
-	public boolean isFirstAction() {
-		return currentMatch().isFirstAction();
+	public boolean isFirstActionPoint() {
+		return currentMatch().isFirstActionPoint();
 	}
 	
 	/**
 	 * @return true if this is the last action of the current match; false otherwise.
 	 */
-	public boolean isLastAction() {
-		return currentMatch().isLastAction();
+	public boolean isLastActionPoint() {
+		return currentMatch().isLastActionPoint();
 	}
 
 	/**

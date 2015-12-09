@@ -20,7 +20,7 @@ public class FontUtils {
 			++prevFontSize;
 
 			g2.setFont(current);
-		} while ((g2.getFontMetrics()).stringWidth(s) < width && g2.getFontMetrics().getAscent() < height);
+		} while ((g2.getFontMetrics()).stringWidth(s) < width && g2.getFontMetrics().getHeight() < height);
 
 		return prev;
 	}

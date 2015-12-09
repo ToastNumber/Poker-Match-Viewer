@@ -2,6 +2,8 @@ package poker.play;
 
 import java.util.Optional;
 
+import poker.graphics.util.StringUtil;
+
 public class ActionType {
 	public static final ActionType FOLD = new ActionType("FOLD");
 	public static final ActionType CHECK = new ActionType("CHECK");
@@ -31,5 +33,9 @@ public class ActionType {
 	
 	public Optional<Integer> getAmount() {
 		return amount;
+	}
+	
+	public String toString() {
+		return String.format("%s%s", StringUtil.firstUpper(name), amount.isPresent() ? " " + amount.get() : "");
 	}
 }

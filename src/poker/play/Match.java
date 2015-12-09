@@ -5,10 +5,10 @@ import java.util.List;
 public class Match {
 	private final String p1Name;
 	private final String p2Name;
-	private final List<Action> actionList;
+	private final List<ActionPoint> actionList;
 	private int actionIndex = -1;
 
-	public Match(String p1Name, String p2Name, List<Action> actionList) {
+	public Match(String p1Name, String p2Name, List<ActionPoint> actionList) {
 		this.p1Name = p1Name;
 		this.p2Name = p2Name;
 		this.actionList = actionList;
@@ -43,21 +43,21 @@ public class Match {
 	/**
 	 * @return true if this is the first action of the match; false otherwise
 	 */
-	public boolean isFirstAction() {
+	public boolean isFirstActionPoint() {
 		return actionIndex == 0;
 	}
 
 	/**
 	 * @return true if this is the last action of the match; false otherwise.
 	 */
-	public boolean isLastAction() {
+	public boolean isLastActionPoint() {
 		return actionIndex == actionList.size() - 1;
 	}
 
 	/**
 	 * @return the current action of the match.
 	 */
-	public Action getAction() {
+	public ActionPoint getActionPoint() {
 		return actionList.get(actionIndex);
 	}
 	
