@@ -14,6 +14,20 @@ public class TourneyModel extends Observable {
 	private Match currentMatch() {
 		return matches.get(matchIndex);
 	}
+	
+	/**
+	 * @return the name of player 1 in the current match
+	 */
+	public String getP1Name() {
+		return currentMatch().getPlayer1Name();
+	}
+	
+	/**
+	 * @return the name of player 2 in the current match
+	 */
+	public String getP2Name() {
+		return currentMatch().getPlayer2Name();
+	}
 
 	/**
 	 * Moves to the next match

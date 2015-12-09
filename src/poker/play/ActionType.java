@@ -10,6 +10,7 @@ public class ActionType {
 	public static final String RAISE = "RAISE";
 	public static final String ALL_IN = "ALL IN";
 	public static final String SHOW = "SHOW";
+	public static final String POST = "POST";
 	
 	private final String name;
 	private final Optional<Integer> amount;

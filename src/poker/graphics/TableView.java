@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Observable;
@@ -31,13 +32,14 @@ public class TableView extends JPanel implements Observer {
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		int width = getWidth();
 		int height = getHeight();
 
 		g2.clearRect(0, 0, width, height);
 
-		// Try to draw the poker table
+		/*** Draw the poker table ***/
 		Image pokerTable;
 		try {
 			pokerTable = ImageIO.read(getClass().getResource(ResourceHandler.TABLE_IMG));
@@ -45,12 +47,11 @@ public class TableView extends JPanel implements Observer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		/*** End of poker table ***/
 
 		/*** Print "Starting/Playing match x of y" ***/
-		String startOfMatchMsg = String.format("%s match %d of %d", 
-				model.matchAboutToStart() ? "Starting" : "Playing",
-				model.getMatchIndex() + 1,
-				model.getNumMatches());
+		String startOfMatchMsg = String.format("%s match %d of %d", model.matchAboutToStart() ? "Starting"
+				: "Playing", model.getMatchIndex() + 1, model.getNumMatches());
 
 		g2.setFont(FontUtils.getLargestPossibleFont(g2, width / 4, height / 20, startOfMatchMsg));
 		g2.setColor(Color.WHITE);
@@ -60,11 +61,18 @@ public class TableView extends JPanel implements Observer {
 
 		g2.drawString(startOfMatchMsg, x, y);
 		/*** End of info message ***/
-		
+
 		/*** Draw the player bubbles ***/
-		
-		
-		/*** End avatars ***/
+		int bubbleRadius = (7 * width) / 100;
+		int bubbleY = (17 * height) / 40;
+		PlayerBubble p1Bubble = new PlayerBubble("Player 1", "Check", 100, (10 * width) / 100, bubbleY,
+				bubbleRadius);
+		p1Bubble.draw(g2);
+
+		PlayerBubble p2Bubble = new PlayerBubble("Player 2", "Call 100", 100, (90 * width) / 100, bubbleY,
+				bubbleRadius);
+		p2Bubble.draw(g2);
+		/*** End bubbles ***/
 	}
 
 	@Override
