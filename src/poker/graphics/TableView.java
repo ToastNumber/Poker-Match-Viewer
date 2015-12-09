@@ -4,25 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import poker.ResourceHandler;
 import poker.graphics.util.FontUtils;
 import poker.play.ActionPoint;
-import poker.play.ActionType;
-import poker.play.HoleCards;
-import poker.play.Match;
 import poker.play.TourneyModel;
 
 public class TableView extends JPanel implements Observer {
@@ -99,9 +91,9 @@ public class TableView extends JPanel implements Observer {
 				card2 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
 			}
 
-			g2.drawImage(card1, (16 * width) / 100, (36 * height) / 100 - cardHeight / 2, cardWidth, cardHeight,
+			g2.drawImage(card1, (17 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight,
 					null);
-			g2.drawImage(card2, (16 * width) / 100 + cardWidth + width / 100, (36 * height) / 100  - cardHeight / 2,
+			g2.drawImage(card2, (17 * width) / 100 + cardWidth + width / 150, (33 * height) / 100  - cardHeight / 2,
 					cardWidth, cardHeight, null);
 
 			// Draw player 2 hole cards
@@ -116,9 +108,9 @@ public class TableView extends JPanel implements Observer {
 				card2 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
 			}
 
-			g2.drawImage(card1, (79 * width) / 100 - (cardWidth + width / 100), (36 * height) / 100 - cardHeight / 2,
+			g2.drawImage(card1, (78 * width) / 100 - (cardWidth + width / 150), (33 * height) / 100 - cardHeight / 2,
 					cardWidth, cardHeight, null);
-			g2.drawImage(card2, (79 * width) / 100, (36 * height) / 100 - cardHeight / 2, cardWidth, cardHeight, null);
+			g2.drawImage(card2, (78 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -202,44 +194,5 @@ public class TableView extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		repaint();
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				JFrame frame = new JFrame("Texas Hold'em");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.addWindowFocusListener(new WindowFocusListener() {
-					@Override
-					public void windowLostFocus(WindowEvent e) {
-					}
-
-					@Override
-					public void windowGainedFocus(WindowEvent e) {
-						e.getWindow().repaint();
-					}
-				});
-
-				int width = 800;
-				int height = (width * 915) / 1280;
-				frame.setSize(width, height);
-
-				ActionPoint action = new ActionPoint(1000, 1000, 800, 600, 200, new ActionType(ActionType.RAISE,
-						400), 2, new HoleCards("king hearts", "queen diamonds"), new HoleCards(), Arrays.asList(
-						"ace diamonds", "5 clubs", "7 spades"));
-				Match match = new Match("Kelsey", "Priya", Arrays.asList(action));
-				TourneyModel model = new TourneyModel(Arrays.asList(match));
-
-				model.nextMatch();
-				model.nextActionPoint();
-
-				TableView view = new TableView(model);
-				model.addObserver(view);
-
-				frame.add(view);
-
-				frame.setVisible(true);
-			}
-		});
 	}
 }
