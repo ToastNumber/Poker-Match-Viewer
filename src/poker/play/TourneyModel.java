@@ -4,12 +4,21 @@ import java.util.List;
 import java.util.Observable;
 
 public class TourneyModel extends Observable {
-	private final List<Match> matches;
+	private final String p1Name;
+	private final String p2Name;
+	private List<Match> matches;
 	private int matchIndex = -1;
 
-	public TourneyModel(List<Match> matches) {
+	public TourneyModel(List<Match> matches, String p1Name, String p2Name) {
 		this.matches = matches;
+		this.p1Name = p1Name;
+		this.p2Name = p2Name;
 		
+		start();
+	}
+	
+	public void setMatches(List<Match> matches) {
+		this.matches = matches;
 		start();
 	}
 
@@ -18,17 +27,17 @@ public class TourneyModel extends Observable {
 	}
 	
 	/**
-	 * @return the name of player 1 in the current match
+	 * @return the name of the first player
 	 */
-	public String getP1Name() {
-		return currentMatch().getPlayer1Name();
+	public String getPlayer1Name() {
+		return p1Name;
 	}
-	
+
 	/**
-	 * @return the name of player 2 in the current match
+	 * @return the name of the second player
 	 */
-	public String getP2Name() {
-		return currentMatch().getPlayer2Name();
+	public String getPlayer2Name() {
+		return p2Name;
 	}
 
 	/**
@@ -95,7 +104,7 @@ public class TourneyModel extends Observable {
 	 */
 	public void nextActionPoint() {
 		try {
-			currentMatch().nextAction();
+			currentMatch().nextEvent();
 			setChanged();
 			notifyObservers();
 		} catch (IndexOutOfBoundsException e) {
@@ -108,7 +117,7 @@ public class TourneyModel extends Observable {
 	 */
 	public void previousActionPoint() {
 		try {
-			currentMatch().previousAction();
+			currentMatch().previousEvent();
 			setChanged();
 			notifyObservers();
 		} catch (IndexOutOfBoundsException e) {
@@ -119,8 +128,8 @@ public class TourneyModel extends Observable {
 	/**
 	 * @return the current action to be made
 	 */
-	public ActionPoint getActionPoint() {
-		return currentMatch().getActionPoint();
+	public Event getActionPoint() {
+		return currentMatch().getEvent();
 	}
 
 	/**
@@ -141,14 +150,14 @@ public class TourneyModel extends Observable {
 	 * @return true if this is the first action of the current match; false otherwise
 	 */
 	public boolean isFirstActionPoint() {
-		return currentMatch().isFirstActionPoint();
+		return currentMatch().isFirstEvent();
 	}
 	
 	/**
 	 * @return true if this is the last action of the current match; false otherwise.
 	 */
 	public boolean isLastActionPoint() {
-		return currentMatch().isLastActionPoint();
+		return currentMatch().isLastEvent();
 	}
 
 	/**

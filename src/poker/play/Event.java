@@ -2,20 +2,20 @@ package poker.play;
 
 import java.util.List;
 
-public class ActionPoint {
+public class Event {
 	private final int p1ChipCount;
 	private final int p2ChipCount;
 	private final int p1Behind;
 	private final int p2Behind;
 	private final int pot;
-	private final ActionType playerAction;
+	private final EventType playerAction;
 	private final int actorIndex;
 	private final HoleCards p1HoleCards;
 	private final HoleCards p2HoleCards;
 	private final List<String> board;
 	private final int buttonIndex;
 
-	public ActionPoint(int p1ChipCount, int p2ChipCount, int p1Behind, int p2Behind, int pot, ActionType playerAction, int actorIndex,
+	public Event(int p1ChipCount, int p2ChipCount, int p1Behind, int p2Behind, int pot, EventType action, int actorIndex,
 			HoleCards p1HoleCards, HoleCards p2HoleCards, List<String> board, int buttonIndex) {
 		super();
 		this.p1ChipCount = p1ChipCount;
@@ -23,7 +23,7 @@ public class ActionPoint {
 		this.p1Behind = p1Behind;
 		this.p2Behind = p2Behind;
 		this.pot = pot;
-		this.playerAction = playerAction;
+		this.playerAction = action;
 		this.actorIndex = actorIndex;
 		this.p1HoleCards = p1HoleCards;
 		this.p2HoleCards = p2HoleCards;
@@ -43,7 +43,7 @@ public class ActionPoint {
 		return pot;
 	}
 
-	public ActionType getPlayerAction() {
+	public EventType getPlayerAction() {
 		return playerAction;
 	}
 

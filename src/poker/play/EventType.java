@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import poker.graphics.util.StringUtil;
 
-public class ActionType {
-	public static final ActionType FOLD = new ActionType("FOLD");
-	public static final ActionType CHECK = new ActionType("CHECK");
-	public static final ActionType START = new ActionType("START");
+public class EventType {
+	public static final EventType FOLD = new EventType("FOLD");
+	public static final EventType CHECK = new EventType("CHECK");
+	public static final EventType START = new EventType("START");
 	public static final String CALL = "CALL";
 	public static final String BET = "BET";
 	public static final String RAISE = "RAISE";
@@ -19,12 +19,12 @@ public class ActionType {
 	private final String name;
 	private final Optional<Integer> amount;
 	
-	private ActionType(String name) {
+	private EventType(String name) {
 		this.name = name;
 		amount = Optional.empty();
 	}
 	
-	public ActionType(String name, int amount) {
+	public EventType(String name, int amount) {
 		this.name = name;
 		this.amount = Optional.of(amount);
 	}

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import poker.ResourceHandler;
 import poker.graphics.util.FontUtils;
-import poker.play.ActionPoint;
+import poker.play.Event;
 import poker.play.TourneyModel;
 
 public class TableView extends JPanel implements Observer {
@@ -30,7 +30,7 @@ public class TableView extends JPanel implements Observer {
 		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		// RenderingHints.VALUE_ANTIALIAS_ON);
 
-		ActionPoint actionPoint = model.getActionPoint();
+		Event actionPoint = model.getActionPoint();
 
 		int width = getWidth();
 		int height = getHeight();
@@ -77,12 +77,12 @@ public class TableView extends JPanel implements Observer {
 		}
 			
 		p1Action = actionPoint.getActorIndex() == 1 ? "" + actionPoint.getPlayerAction() : "";
-		PlayerBubble p1Bubble = new PlayerBubble(model.getP1Name(), p1Action, actionPoint.getP1Behind(),
+		PlayerBubble p1Bubble = new PlayerBubble(model.getPlayer1Name(), p1Action, actionPoint.getP1Behind(),
 				(10 * width) / 100, bubbleY, bubbleRadius);
 		p1Bubble.draw(g2);
 
 		p2Action = actionPoint.getActorIndex() == 2 ? "" + actionPoint.getPlayerAction() : "";
-		PlayerBubble p2Bubble = new PlayerBubble(model.getP2Name(), p2Action, actionPoint.getP2Behind(),
+		PlayerBubble p2Bubble = new PlayerBubble(model.getPlayer2Name(), p2Action, actionPoint.getP2Behind(),
 				(90 * width) / 100, bubbleY, bubbleRadius);
 		p2Bubble.draw(g2);
 		/*** End bubbles ***/
