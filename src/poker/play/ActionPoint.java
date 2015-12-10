@@ -30,7 +30,7 @@ public class ActionPoint {
 		this.board = board;
 		this.buttonIndex = buttonIndex;
 	}
-
+	
 	public int getP1ChipCount() {
 		return p1ChipCount;
 	}
@@ -80,6 +80,5 @@ public class ActionPoint {
 	public int getP2Behind() {
 		return p2Behind;
 	}
-	
 	
 }

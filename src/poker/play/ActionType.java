@@ -7,6 +7,7 @@ import poker.graphics.util.StringUtil;
 public class ActionType {
 	public static final ActionType FOLD = new ActionType("FOLD");
 	public static final ActionType CHECK = new ActionType("CHECK");
+	public static final ActionType START = new ActionType("START");
 	public static final String CALL = "CALL";
 	public static final String BET = "BET";
 	public static final String RAISE = "RAISE";

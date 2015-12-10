@@ -45,27 +45,43 @@ public class TableView extends JPanel implements Observer {
 		/*** End of poker table ***/
 
 		/*** Print "Starting/Playing match x of y" ***/
-		String startOfMatchMsg = String.format("%s match %d of %d", model.matchAboutToStart() ? "Starting"
+		String startOfMatchMsg = String.format("%s match %d of %d", model.isFirstActionPoint() ? "Starting"
 				: "Playing", model.getMatchIndex() + 1, model.getNumMatches());
 
 		g2.setFont(FontUtils.getLargestPossibleFont(g2, width / 4, height / 20, startOfMatchMsg));
 		g2.setColor(Color.WHITE);
 
-		int y = (95 * height) / 100;
+		int y = (87 * height) / 100;
 		int x = width / 20;
 
 		g2.drawString(startOfMatchMsg, x, y);
+		
+		String handNumMessage = String.format("Hand %d of %d", model.getHandIndex() + 1, model.getNumHands());
+		g2.setFont(FontUtils.getLargestPossibleFont(g2, width/4, height/20, handNumMessage));
+		y += (5 * height) / 100;
+		g2.drawString(handNumMessage, x, y);
 		/*** End of info message ***/
 
 		/*** Draw the player bubbles ***/
 		int bubbleRadius = (7 * width) / 100;
 		int bubbleY = (17 * height) / 40;
-		String p1Action = actionPoint.getActorIndex() == 1 ? "" + actionPoint.getPlayerAction() : "";
+		
+		String p1Action = "";
+		String p2Action = "";
+		String action = "" + actionPoint.getPlayerAction();
+		int actorIndex = actionPoint.getActorIndex();
+		if (actorIndex == 1) {
+			p1Action = action;
+		} else if (actorIndex == 2) {
+			p2Action = action;
+		}
+			
+		p1Action = actionPoint.getActorIndex() == 1 ? "" + actionPoint.getPlayerAction() : "";
 		PlayerBubble p1Bubble = new PlayerBubble(model.getP1Name(), p1Action, actionPoint.getP1Behind(),
 				(10 * width) / 100, bubbleY, bubbleRadius);
 		p1Bubble.draw(g2);
 
-		String p2Action = actionPoint.getActorIndex() == 2 ? "" + actionPoint.getPlayerAction() : "";
+		p2Action = actionPoint.getActorIndex() == 2 ? "" + actionPoint.getPlayerAction() : "";
 		PlayerBubble p2Bubble = new PlayerBubble(model.getP2Name(), p2Action, actionPoint.getP2Behind(),
 				(90 * width) / 100, bubbleY, bubbleRadius);
 		p2Bubble.draw(g2);
@@ -185,7 +201,13 @@ public class TableView extends JPanel implements Observer {
 		/*** End betting chips ***/
 
 		/*** Draw dealer button ***/
-
+		Image dealerButton = handler.DEALER_BUTTON;
+		
+		if (dealerButton != null) {
+			int dealerX = actionPoint.getButtonIndex() == 1 ? (18 * width) / 100 : (77 * width) / 100;
+			int dealerWidth = (5 * width) / 100;
+			g2.drawImage(dealerButton, dealerX, (43 * height) / 100, dealerWidth, dealerWidth, null);
+		}
 		/*** End dealer button ***/
 	}
 

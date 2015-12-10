@@ -34,6 +34,37 @@ public class TourneyModel extends Observable {
 	/**
 	 * Moves to the next match
 	 */
+	public void nextHand() {
+		currentMatch().nextHand();
+		setChanged();
+		notifyObservers();
+	}
+	
+	public void previousHand() {
+		currentMatch().previousHand();
+		setChanged();
+		notifyObservers();
+	}
+	
+	public int getHandIndex() { 
+		return currentMatch().getHandIndex();
+	}
+	
+	public int getNumHands() {
+		return currentMatch().getNumHands();
+	}
+	
+	public boolean isFirstHand() {
+		return currentMatch().isFirstHand();
+	}
+	
+	public boolean isLastHand() {
+		return currentMatch().isLastHand();
+	}
+	
+	/**
+	 * Moves to the next match
+	 */
 	public void nextMatch() {
 		if (matchIndex + 1 < matches.size()) {
 			++matchIndex;
@@ -64,7 +95,7 @@ public class TourneyModel extends Observable {
 	 */
 	public void nextActionPoint() {
 		try {
-			currentMatch().next();
+			currentMatch().nextAction();
 			setChanged();
 			notifyObservers();
 		} catch (IndexOutOfBoundsException e) {
@@ -77,7 +108,7 @@ public class TourneyModel extends Observable {
 	 */
 	public void previousActionPoint() {
 		try {
-			currentMatch().previous();
+			currentMatch().previousAction();
 			setChanged();
 			notifyObservers();
 		} catch (IndexOutOfBoundsException e) {
@@ -104,13 +135,6 @@ public class TourneyModel extends Observable {
 	 */
 	public boolean isLastMatch() {
 		return matchIndex == matches.size() - 1;
-	}
-
-	/**
-	 * @return true if the match is about to start; false otherwise
-	 */
-	public boolean matchAboutToStart() {
-		return currentMatch().aboutToStart();
 	}
 
 	/**
