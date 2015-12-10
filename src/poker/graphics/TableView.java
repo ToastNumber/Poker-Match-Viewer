@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,8 +28,7 @@ public class TableView extends JPanel implements Observer {
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		// RenderingHints.VALUE_ANTIALIAS_ON);
+		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		ActionPoint actionPoint = model.getActionPoint();
 
@@ -93,24 +93,26 @@ public class TableView extends JPanel implements Observer {
 
 			g2.drawImage(card1, (17 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight,
 					null);
-			g2.drawImage(card2, (17 * width) / 100 + cardWidth + width / 150, (33 * height) / 100  - cardHeight / 2,
-					cardWidth, cardHeight, null);
+			g2.drawImage(card2, (17 * width) / 100 + cardWidth + width / 150, (33 * height) / 100 - cardHeight
+					/ 2, cardWidth, cardHeight, null);
 
 			// Draw player 2 hole cards
 			if (actionPoint.getP2HoleCards().known()) {
 				String[] cards = actionPoint.getP2HoleCards().getCards();
 				String[] c1 = cards[0].split(" ");
 				String[] c2 = cards[1].split(" ");
+				System.out.println(Arrays.toString(cards));
 				card1 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c1[0], c1[1])));
-				card1 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c2[0], c2[1])));
+				card2 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c2[0], c2[1])));
 			} else {
 				card1 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
 				card2 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
 			}
 
-			g2.drawImage(card1, (78 * width) / 100 - (cardWidth + width / 150), (33 * height) / 100 - cardHeight / 2,
-					cardWidth, cardHeight, null);
-			g2.drawImage(card2, (78 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight, null);
+			g2.drawImage(card1, (78 * width) / 100 - (cardWidth + width / 150), (33 * height) / 100 - cardHeight
+					/ 2, cardWidth, cardHeight, null);
+			g2.drawImage(card2, (78 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight,
+					null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

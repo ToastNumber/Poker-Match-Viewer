@@ -12,7 +12,8 @@ public class ActionType {
 	public static final String RAISE = "RAISE";
 	public static final String ALL_IN = "ALL IN";
 	public static final String SHOW = "SHOW";
-	public static final String POST = "POST";
+	public static final String POST_SB = "POST SB";
+	public static final String POST_BB = "POST BB";
 	
 	private final String name;
 	private final Optional<Integer> amount;

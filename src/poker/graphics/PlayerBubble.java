@@ -50,7 +50,7 @@ public class PlayerBubble {
 		g2.drawLine(x1, y2, x2, y2);
 		
 		// Write the name
-		g2.setFont(FontUtils.getLargestPossibleFont(g2, radius, (2 * radius) / 3, name));
+		g2.setFont(FontUtils.getLargestPossibleFont(g2, (180 * radius) / 100, (50 * radius) / 100, name));
 		int nameWidth = g2.getFontMetrics().stringWidth(name);
 		g2.drawString(name, x - nameWidth/2, y + g2.getFontMetrics().getHeight() / 4);
 

@@ -9,6 +9,8 @@ public class TourneyModel extends Observable {
 
 	public TourneyModel(List<Match> matches) {
 		this.matches = matches;
+		
+		start();
 	}
 
 	private Match currentMatch() {
@@ -35,10 +37,13 @@ public class TourneyModel extends Observable {
 	public void nextMatch() {
 		if (matchIndex + 1 < matches.size()) {
 			++matchIndex;
+			currentMatch().start();
 
 			setChanged();
 			notifyObservers();
-		} else throw new IndexOutOfBoundsException("There are no more tourneys");
+		} else {
+			throw new IndexOutOfBoundsException("There are no more tourneys");
+		}
 	}
 
 	/**
@@ -47,6 +52,7 @@ public class TourneyModel extends Observable {
 	public void previousMatch() {
 		if (matchIndex - 1 >= 0) {
 			--matchIndex;
+			currentMatch().start();
 
 			setChanged();
 			notifyObservers();
@@ -138,4 +144,10 @@ public class TourneyModel extends Observable {
 	public String toString() {
 		return currentMatch().toString();
 	}
+	
+	public void start() {
+		matchIndex = 0;
+		currentMatch().start();
+	}
+	
 }

@@ -23,22 +23,55 @@ public class ControlPanel extends JPanel implements Observer {
 
 		btnPrev = new JButton("Previous");
 		btnPrev.setFocusable(false);
-		btnPrev.addActionListener(e -> model.previousActionPoint());
+		btnPrev.addActionListener(e -> {
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					model.previousActionPoint();
+				}
+			});
+
+			t.start();
+		});
+
 		// Set the previous button to disabled at first
 		btnPrev.setEnabled(false);
 
 		btnNext = new JButton("Next");
 		btnNext.setFocusable(false);
-		btnNext.addActionListener(e -> model.nextActionPoint());
+		btnNext.addActionListener(e -> {
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					model.nextActionPoint();
+				}
+			});
+
+			t.start();
+		});
 
 		btnPrevMatch = new JButton("Previous match");
 		btnPrevMatch.setFocusable(false);
-		btnPrevMatch.addActionListener(e -> model.previousMatch());
+		btnPrevMatch.addActionListener(e -> {
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					model.previousMatch();;
+				}
+			});
 
+			t.start();
+		});
+		
 		btnNextMatch = new JButton("Next match");
 		btnNextMatch.setFocusable(false);
-		btnNextMatch.addActionListener(e -> model.nextMatch());
+		btnNextMatch.addActionListener(e -> {
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					model.nextMatch();
+				}
+			});
 
+			t.start();
+		});
+		
 		setLayout(new FlowLayout());
 		add(btnPrev);
 		add(btnNext);

@@ -74,4 +74,8 @@ public class Match {
 	public String getPlayer2Name() {
 		return p2Name;
 	}
+	
+	public void start() {
+		actionIndex = 0;
+	}
 }

@@ -11,9 +11,6 @@ public class PokerPanel extends JPanel {
 	public PokerPanel(TourneyModel model) {
 		super();
 		
-		model.nextMatch();
-		model.nextActionPoint();
-		
 		TableView view = new TableView(model);
 		model.addObserver(view);
 		
