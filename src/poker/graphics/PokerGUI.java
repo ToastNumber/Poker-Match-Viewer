@@ -36,21 +36,21 @@ public class PokerGUI {
 
 				ActionPoint action1 = new ActionPoint(1000, 1000, 800, 600, 200, new ActionType(ActionType.RAISE,
 						400), 2, new HoleCards("king hearts", "queen diamonds"), new HoleCards(), Arrays.asList(
-						"ace diamonds", "5 clubs", "7 spades"));
+						"ace diamonds", "5 clubs", "7 spades"), 2);
 
 				ActionPoint action2 = new ActionPoint(1000, 1000, 600, 600, 200, new ActionType(ActionType.CALL,
 						400), 1, new HoleCards("king hearts", "queen diamonds"), new HoleCards(), Arrays.asList(
-						"ace diamonds", "5 clubs", "7 spades"));
+						"ace diamonds", "5 clubs", "7 spades"), 2);
 
 				Match match = new Match("Kelsey", "Priya", Arrays.asList(action1, action2));
 
 				ActionPoint actionOne = new ActionPoint(500, 500, 490, 500, 0, new ActionType(ActionType.POST_SB,
 						10), 1, new HoleCards("king clubs", "king spades"), new HoleCards("queen hearts",
-						"queen clubs"), Arrays.asList());
+						"queen clubs"), Arrays.asList(), 1);
 
 				ActionPoint actionTwo = new ActionPoint(500, 500, 490, 480, 0, new ActionType(ActionType.POST_BB,
 						20), 2, new HoleCards("king clubs", "king spades"), new HoleCards("queen hearts",
-						"queen clubs"), Arrays.asList());
+						"queen clubs"), Arrays.asList(), 1);
 
 				Match match2 = new Match("Aldo", "McGregor", Arrays.asList(actionOne, actionTwo));
 

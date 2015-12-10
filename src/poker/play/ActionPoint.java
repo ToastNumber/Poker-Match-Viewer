@@ -13,9 +13,10 @@ public class ActionPoint {
 	private final HoleCards p1HoleCards;
 	private final HoleCards p2HoleCards;
 	private final List<String> board;
+	private final int buttonIndex;
 
 	public ActionPoint(int p1ChipCount, int p2ChipCount, int p1Behind, int p2Behind, int pot, ActionType playerAction, int actorIndex,
-			HoleCards p1HoleCards, HoleCards p2HoleCards, List<String> board) {
+			HoleCards p1HoleCards, HoleCards p2HoleCards, List<String> board, int buttonIndex) {
 		super();
 		this.p1ChipCount = p1ChipCount;
 		this.p2ChipCount = p2ChipCount;
@@ -27,6 +28,7 @@ public class ActionPoint {
 		this.p1HoleCards = p1HoleCards;
 		this.p2HoleCards = p2HoleCards;
 		this.board = board;
+		this.buttonIndex = buttonIndex;
 	}
 
 	public int getP1ChipCount() {
@@ -59,6 +61,10 @@ public class ActionPoint {
 	
 	public List<String> getBoard() {
 		return board;
+	}
+	
+	public int getButtonIndex() {
+		return buttonIndex;
 	}
 
 	@Override

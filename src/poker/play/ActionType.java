@@ -37,6 +37,8 @@ public class ActionType {
 	}
 	
 	public String toString() {
-		return String.format("%s%s", StringUtil.firstUpper(name), amount.isPresent() ? " " + amount.get() : "");
+		if (name.equals(POST_SB)) return "Post SB" + (amount.isPresent() ? " " + amount.get() : "");
+		else if (name.equals(POST_BB)) return "Post BB" + (amount.isPresent() ? " " + amount.get() : "");
+		else return String.format("%s%s", StringUtil.firstUpper(name), amount.isPresent() ? " " + amount.get() : "");
 	}
 }

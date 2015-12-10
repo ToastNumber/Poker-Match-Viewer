@@ -4,13 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import poker.ResourceHandler;
@@ -27,8 +24,11 @@ public class TableView extends JPanel implements Observer {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		ResourceHandler handler = ResourceHandler.handler;
+		
 		Graphics2D g2 = (Graphics2D) g;
-		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		// RenderingHints.VALUE_ANTIALIAS_ON);
 
 		ActionPoint actionPoint = model.getActionPoint();
 
@@ -38,12 +38,9 @@ public class TableView extends JPanel implements Observer {
 		g2.clearRect(0, 0, width, height);
 
 		/*** Draw the poker table ***/
-		Image pokerTable;
-		try {
-			pokerTable = ImageIO.read(getClass().getResource(ResourceHandler.TABLE_IMG));
+		Image pokerTable = handler.TABLE_IMG;
+		if (pokerTable != null) {
 			g2.drawImage(pokerTable, 0, 0, width, height, null);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		/*** End of poker table ***/
 
@@ -78,43 +75,47 @@ public class TableView extends JPanel implements Observer {
 		Image card1, card2;
 		int cardWidth = (int) (0.05 * width);
 		int cardHeight = (int) (726 * cardWidth) / 500;
-		try {
-			// Draw player 1 hole cards
-			if (actionPoint.getP1HoleCards().known()) {
-				String[] cards = actionPoint.getP1HoleCards().getCards();
-				String[] c1 = cards[0].split(" ");
-				String[] c2 = cards[1].split(" ");
-				card1 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c1[0], c1[1])));
-				card2 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c2[0], c2[1])));
-			} else {
-				card1 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
-				card2 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
-			}
 
+		// Draw player 1 hole cards
+		if (actionPoint.getP1HoleCards().known()) {
+			String[] cards = actionPoint.getP1HoleCards().getCards();
+			String[] c1 = cards[0].split(" ");
+			String[] c2 = cards[1].split(" ");
+			card1 = handler.getPlayingCard(c1[0], c1[1]);
+			card2 = handler.getPlayingCard(c2[0], c2[1]);
+		} else {
+			card1 = handler.CARD_BACK;
+			card2 = handler.CARD_BACK;
+		}
+
+		if (card1 != null) {
 			g2.drawImage(card1, (17 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight,
 					null);
+		}
+		if (card2 != null) {
 			g2.drawImage(card2, (17 * width) / 100 + cardWidth + width / 150, (33 * height) / 100 - cardHeight
 					/ 2, cardWidth, cardHeight, null);
+		}
 
-			// Draw player 2 hole cards
-			if (actionPoint.getP2HoleCards().known()) {
-				String[] cards = actionPoint.getP2HoleCards().getCards();
-				String[] c1 = cards[0].split(" ");
-				String[] c2 = cards[1].split(" ");
-				System.out.println(Arrays.toString(cards));
-				card1 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c1[0], c1[1])));
-				card2 = ImageIO.read(getClass().getResource(ResourceHandler.getCard(c2[0], c2[1])));
-			} else {
-				card1 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
-				card2 = ImageIO.read(getClass().getResource(ResourceHandler.CARD_BACK));
-			}
+		// Draw player 2 hole cards
+		if (actionPoint.getP2HoleCards().known()) {
+			String[] cards = actionPoint.getP2HoleCards().getCards();
+			String[] c1 = cards[0].split(" ");
+			String[] c2 = cards[1].split(" ");
+			card1 = handler.getPlayingCard(c1[0], c1[1]);
+			card2 = handler.getPlayingCard(c2[0], c2[1]);
+		} else {
+			card1 = handler.CARD_BACK;
+			card2 = handler.CARD_BACK;
+		}
 
+		if (card1 != null) {
 			g2.drawImage(card1, (78 * width) / 100 - (cardWidth + width / 150), (33 * height) / 100 - cardHeight
 					/ 2, cardWidth, cardHeight, null);
+		}
+		if (card2 != null) {
 			g2.drawImage(card2, (78 * width) / 100, (33 * height) / 100 - cardHeight / 2, cardWidth, cardHeight,
 					null);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		/*** End hole cards ***/
 
@@ -122,17 +123,15 @@ public class TableView extends JPanel implements Observer {
 		List<String> board = actionPoint.getBoard();
 		int boardCardWidth = (int) (0.06 * width);
 		int boardCardHeight = (int) (726 * boardCardWidth) / 500;
-		try {
-			for (int i = 0; i < board.size(); ++i) {
-				String[] rankSuit = board.get(i).split(" ");
-				Image card = ImageIO.read(getClass().getResource(
-						ResourceHandler.getCard(rankSuit[0], rankSuit[1])));
+		for (int i = 0; i < board.size(); ++i) {
+			String[] rankSuit = board.get(i).split(" ");
 
+			Image card = handler.getPlayingCard(rankSuit[0], rankSuit[1]);
+
+			if (card != null) {
 				int xOffset = ((19 * width) / 20 - 5 * boardCardWidth) / 2 + i * (boardCardWidth + width / 100);
 				g2.drawImage(card, xOffset, bubbleY - boardCardHeight / 2, boardCardWidth, boardCardHeight, null);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		/*** End community cards ***/
 
@@ -143,23 +142,22 @@ public class TableView extends JPanel implements Observer {
 			g2.drawString(potString, (58 * width) / 100 - g2.getFontMetrics().stringWidth(potString) / 2,
 					(26 * height) / 100);
 
-			Image potImage;
-			try {
-				potImage = ImageIO.read(getClass().getResource(ResourceHandler.POT));
+			Image potImage = handler.POT;
+
+			if (potImage != null) {
 				int potImageWidth = (8 * width) / 100;
 				int potImageHeight = (246 * potImageWidth) / 306;
 				g2.drawImage(potImage, width / 2 - potImageWidth / 2, (19 * height) / 100, potImageWidth,
 						potImageHeight, null);
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 		/*** End pot ***/
 
 		/*** Draw betting chips ***/
 		if (actionPoint.getP1ChipCount() != actionPoint.getP1Behind()) {
-			try {
-				Image chips = ImageIO.read(getClass().getResource(ResourceHandler.CHIPS));
+			Image chips = handler.CHIPS;
+
+			if (chips != null) {
 				int chipWidth = (5 * width) / 100;
 				int chipHeight = (516 * chipWidth) / 630;
 
@@ -169,28 +167,26 @@ public class TableView extends JPanel implements Observer {
 				g2.setFont(FontUtils.getLargestPossibleFont(g2, (12 * width) / 100, (4 * height) / 100, ""
 						+ betAmount));
 				g2.drawString("" + betAmount, (29 * width) / 100, (60 * height) / 100);
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 
 		if (actionPoint.getP2ChipCount() != actionPoint.getP2Behind()) {
-			try {
-				Image chips = ImageIO.read(getClass().getResource(ResourceHandler.CHIPS));
-				int chipWidth = (5 * width) / 100;
-				int chipHeight = (516 * chipWidth) / 630;
+			Image chips = handler.CHIPS;
+			int chipWidth = (5 * width) / 100;
+			int chipHeight = (516 * chipWidth) / 630;
 
-				g2.drawImage(chips, (78 * width) / 100, (55 * height) / 100, chipWidth, chipHeight, null);
+			g2.drawImage(chips, (78 * width) / 100, (55 * height) / 100, chipWidth, chipHeight, null);
 
-				int betAmount = actionPoint.getP2ChipCount() - actionPoint.getP2Behind();
-				g2.setFont(FontUtils.getLargestPossibleFont(g2, (12 * width) / 100, (4 * height) / 100, ""
-						+ betAmount));
-				g2.drawString("" + betAmount, (71 * width) / 100, (60 * height) / 100);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			int betAmount = actionPoint.getP2ChipCount() - actionPoint.getP2Behind();
+			g2.setFont(FontUtils.getLargestPossibleFont(g2, (12 * width) / 100, (4 * height) / 100, ""
+					+ betAmount));
+			g2.drawString("" + betAmount, (71 * width) / 100, (60 * height) / 100);
 		}
 		/*** End betting chips ***/
+
+		/*** Draw dealer button ***/
+
+		/*** End dealer button ***/
 	}
 
 	@Override
