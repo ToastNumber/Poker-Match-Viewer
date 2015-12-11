@@ -70,7 +70,7 @@
             {"name":"deal"},
             {"name":"post sb", "amount":10},
             {"name":"post bb", "amount":20},
-            {"name":"bet"    , "amount":40},
+            {"name":"raise"    , "amount":40},
             {"name":"raise"  , "amount":80},
             {"name":"call"},
 
