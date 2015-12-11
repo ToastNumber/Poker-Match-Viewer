@@ -138,11 +138,16 @@ public class PokerFileParser {
 						p1Bet = 0;
 						// Set their cards as unknown
 						p1Cards = new HoleCards();
+						
+						// Give the chips back to the other player
+						p2Bet = 0;
 					} else {
 						pot += p2Bet;
 						p2ChipCount -= p2Bet;
 						p2Bet = 0;
 						p2Cards = new HoleCards();
+						
+						p1Bet = 0;
 					}
 
 					svar.add(new Action(p1ChipCount, p2ChipCount, p1Bet, p2Bet, pot, ActionType.FOLD, actorIndex,
@@ -190,6 +195,15 @@ public class PokerFileParser {
 					svar.add(new Action(p1ChipCount, p2ChipCount, p1Bet, p2Bet, pot, new ActionType(
 							ActionType.TAKE_EXCESS, excessAmount), actorIndex, p1Cards, p2Cards, boardCards
 							.subList(0, boardLength), buttonIndex));
+				} else if (name.equals("all in")) {
+					if (actorIndex == 1) {
+						p1Bet = p1ChipCount;
+					} else {
+						p2Bet = p2ChipCount;
+					}
+					
+					svar.add(new Action(p1ChipCount, p2ChipCount, p1Bet, p2Bet, pot, ActionType.ALL_IN, actorIndex,
+							p1Cards, p2Cards, boardCards.subList(0, boardLength), buttonIndex));
 				} else {
 					int actionAmount = intValue(currentAction, "amount");
 
@@ -200,9 +214,7 @@ public class PokerFileParser {
 					}
 
 					ActionType type;
-					if (name.equals("all in")) {
-						type = new ActionType(ActionType.ALL_IN, actionAmount);
-					} else if (name.equals("bet")) {
+					if (name.equals("bet")) {
 						type = new ActionType(ActionType.BET, actionAmount);
 					} else if (name.equals("raise")) {
 						type = new ActionType(ActionType.RAISE, actionAmount);

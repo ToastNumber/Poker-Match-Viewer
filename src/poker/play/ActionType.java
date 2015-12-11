@@ -11,9 +11,9 @@ public class ActionType {
 	public static final ActionType DEAL = new ActionType("DEAL"); 
 	public static final ActionType CALL = new ActionType("CALL");
 	public static final ActionType SHOW = new ActionType("SHOW");
+	public static final ActionType ALL_IN = new ActionType("ALL IN");
 	public static final String BET = "BET";
 	public static final String RAISE = "RAISE";
-	public static final String ALL_IN = "ALL IN";
 	public static final String POST_SB = "POST SB";
 	public static final String POST_BB = "POST BB";
 	public static final String WIN = "WIN";
