@@ -136,13 +136,13 @@ public class ControlPanel extends JPanel implements Observer {
 							model.ofTourney(t);
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, e.getMessage());
+							JOptionPane.showMessageDialog(null, "File not found.");
 						} catch (IOException e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, e.getMessage());
+							JOptionPane.showMessageDialog(null, "Could not read from file.");
 						} catch (ParseException e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, e.getMessage());
+							JOptionPane.showMessageDialog(null, "Couldn't parse file.");
 						}
 						
 					}

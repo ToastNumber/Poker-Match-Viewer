@@ -122,8 +122,8 @@
             {"name":"deal"},
             {"name":"post sb", "amount":10},
             {"name":"post bb", "amount":20},
-            {"name":"raise"    , "amount":40},
-            {"name":"all in"  , "amount":80},
+            {"name":"raise"  , "amount":40},
+            {"name":"all in"},
             {"name":"fold"},
 
             {"name":"win", "amount":40}

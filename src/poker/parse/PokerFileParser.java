@@ -218,6 +218,8 @@ public class PokerFileParser {
 						type = new ActionType(ActionType.BET, actionAmount);
 					} else if (name.equals("raise")) {
 						type = new ActionType(ActionType.RAISE, actionAmount);
+					} else if (name.equals("post ante")) {
+						type = new ActionType(ActionType.POST_ANTE, actionAmount);
 					} else if (name.equals("post sb")) {
 						type = new ActionType(ActionType.POST_SB, actionAmount);
 					} else if (name.equals("post bb")) {

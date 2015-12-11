@@ -14,6 +14,7 @@ public class ActionType {
 	public static final ActionType ALL_IN = new ActionType("ALL IN");
 	public static final String BET = "BET";
 	public static final String RAISE = "RAISE";
+	public static final String POST_ANTE = "POST ANTE";
 	public static final String POST_SB = "POST SB";
 	public static final String POST_BB = "POST BB";
 	public static final String WIN = "WIN";
