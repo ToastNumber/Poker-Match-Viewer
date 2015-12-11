@@ -15,8 +15,6 @@ import poker.play.TourneyModel;
 
 public class PokerGUI {
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
-		System.out.println("Running ...");
-
 		TourneyModel model = new TourneyModel(Arrays.asList(), "", "");
 			
 		PokerPanel pokerPanel = new PokerPanel(model);
