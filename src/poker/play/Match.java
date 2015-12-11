@@ -15,11 +15,17 @@ public class Match {
 	}
 
 	public void nextHand() {
-		if (handIndex + 1 < hands.size()) ++handIndex;
+		if (handIndex + 1 < hands.size()) {
+			++handIndex;
+			currentHand().start();
+		}
 	}
 
 	public void previousHand() {
-		if (handIndex - 1 >= 0) --handIndex;
+		if (handIndex - 1 >= 0){
+			--handIndex;
+			currentHand().start();
+		}
 	}
 
 	public int getHandIndex() {
@@ -70,7 +76,7 @@ public class Match {
 	/**
 	 * @return the current action of the match.
 	 */
-	public Event getEvent() {
+	public Action getEvent() {
 		return currentHand().getEvent();
 	}
 

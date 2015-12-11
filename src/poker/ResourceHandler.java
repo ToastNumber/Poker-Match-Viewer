@@ -11,6 +11,7 @@ public class ResourceHandler {
 	public Image CHIPS;
 	public Image POT;
 	public Image DEALER_BUTTON;
+	public Image GREETING_IMAGE;
 	public Image[][] CARDS;
 	private static final String[] ranks = { "ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king" };
 	private static final String[] suits = { "clubs", "diamonds", "hearts", "spades" };
@@ -29,6 +30,7 @@ public class ResourceHandler {
 		CHIPS = getImage("/chips.png");
 		POT = getImage("/pot.png");
 		DEALER_BUTTON = getImage("/dealer-button.png");
+		GREETING_IMAGE = getImage("/chip-black-bg.jpg");
 		
 		CARDS = new Image[ranks.length][suits.length];
 		for (int i = 0; i < ranks.length; ++i) {

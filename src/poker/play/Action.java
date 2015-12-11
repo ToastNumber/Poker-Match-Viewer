@@ -2,26 +2,26 @@ package poker.play;
 
 import java.util.List;
 
-public class Event {
+public class Action {
 	private final int p1ChipCount;
 	private final int p2ChipCount;
-	private final int p1Behind;
-	private final int p2Behind;
+	private final int p1Bet;
+	private final int p2Bet;
 	private final int pot;
-	private final EventType playerAction;
+	private final ActionType playerAction;
 	private final int actorIndex;
 	private final HoleCards p1HoleCards;
 	private final HoleCards p2HoleCards;
 	private final List<String> board;
 	private final int buttonIndex;
 
-	public Event(int p1ChipCount, int p2ChipCount, int p1Behind, int p2Behind, int pot, EventType action, int actorIndex,
+	public Action(int p1ChipCount, int p2ChipCount, int p1Bet, int p2Bet, int pot, ActionType action, int actorIndex,
 			HoleCards p1HoleCards, HoleCards p2HoleCards, List<String> board, int buttonIndex) {
 		super();
 		this.p1ChipCount = p1ChipCount;
 		this.p2ChipCount = p2ChipCount;
-		this.p1Behind = p1Behind;
-		this.p2Behind = p2Behind;
+		this.p1Bet = p1Bet;
+		this.p2Bet = p2Bet;
 		this.pot = pot;
 		this.playerAction = action;
 		this.actorIndex = actorIndex;
@@ -43,7 +43,7 @@ public class Event {
 		return pot;
 	}
 
-	public EventType getPlayerAction() {
+	public ActionType getPlayerAction() {
 		return playerAction;
 	}
 
@@ -73,12 +73,12 @@ public class Event {
 				+ ",\nplayerAction=" + playerAction + ",\nactorIndex=" + actorIndex + "]";
 	}
 
-	public int getP1Behind() {
-		return p1Behind;
+	public int getP1Bet() {
+		return p1Bet;
 	}
 
-	public int getP2Behind() {
-		return p2Behind;
+	public int getP2Bet() {
+		return p2Bet;
 	}
 	
 }

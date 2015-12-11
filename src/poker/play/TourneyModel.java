@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Observable;
 
 public class TourneyModel extends Observable {
-	private final String p1Name;
-	private final String p2Name;
+	private String p1Name;
+	private String p2Name;
 	private List<Match> matches;
 	private int matchIndex = -1;
 
@@ -13,13 +13,27 @@ public class TourneyModel extends Observable {
 		this.matches = matches;
 		this.p1Name = p1Name;
 		this.p2Name = p2Name;
-		
-		start();
+	}
+	
+	public void ofTourney(Tourney tourney) {
+		setP1Name(tourney.getP1Name());
+		setP2Name(tourney.getP2Name());
+		setMatches(tourney.getMatches());
+	}
+	
+	public void setP1Name(String p1Name) {
+		this.p1Name = p1Name;
+	}
+	
+	public void setP2Name(String p2Name) {
+		this.p2Name = p2Name;
 	}
 	
 	public void setMatches(List<Match> matches) {
 		this.matches = matches;
 		start();
+		setChanged();
+		notifyObservers();
 	}
 
 	private Match currentMatch() {
@@ -128,7 +142,7 @@ public class TourneyModel extends Observable {
 	/**
 	 * @return the current action to be made
 	 */
-	public Event getActionPoint() {
+	public Action getActionPoint() {
 		return currentMatch().getEvent();
 	}
 

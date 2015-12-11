@@ -14,11 +14,12 @@
             {"rank":"5", "suit":"clubs"},
             {"rank":"2", "suit":"hearts"},
             {"rank":"9", "suit":"spades"},
-            {"rank":"jack", "suit":"hearts"},
+            {"rank":"queen", "suit":"diamonds"},
           ],
           "winner"  : 2,
 
           "actions" : [
+            {"name":"deal"},
             {"name":"post sb", "amount":10},
             {"name":"post bb", "amount":20},
             {"name":"bet"    , "amount":40},
@@ -37,7 +38,67 @@
             {"name":"bet", "amount":80},
             {"name":"call"},
 
-            {"name":"show", "player":2, "cards": [{"rank":"queen", "suit":"hearts"}, {"rank":"queen", "suit":"clubs"}]},
+            {
+              "name":"show",
+              "cards":[
+                {"rank":"queen", "suit":"hearts"}, {"rank":"queen", "suit":"clubs"}
+              ]
+            },
+            {
+              "name":"show",
+              "cards":[
+                {"rank":"king", "suit":"spades"},
+                {"rank":"king", "suit":"clubs"}
+              ]
+            },
+            {"name":"win", "amount":320}
+          ],
+        },
+
+        {
+          "p1Cards" : [{"rank":"queen", "suit":"hearts"}, {"rank":"queen", "suit":"clubs"}],
+          "board"   : [
+            {"rank":"7", "suit":"diamonds"},
+            {"rank":"5", "suit":"clubs"},
+            {"rank":"2", "suit":"hearts"},
+            {"rank":"9", "suit":"spades"},
+            {"rank":"queen", "suit":"diamonds"},
+          ],
+          "winner"  : 1,
+
+          "actions" : [
+            {"name":"deal"},
+            {"name":"post sb", "amount":10},
+            {"name":"post bb", "amount":20},
+            {"name":"bet"    , "amount":40},
+            {"name":"raise"  , "amount":80},
+            {"name":"call"},
+
+            {"name":"flop"},
+            {"name":"check"},
+            {"name":"check"},
+
+            {"name":"turn"},
+            {"name":"check"},
+            {"name":"check"},
+
+            {"name":"river"},
+            {"name":"bet", "amount":80},
+            {"name":"call"},
+
+            {
+              "name":"show",
+              "cards":[
+                {"rank":"queen", "suit":"hearts"}, {"rank":"queen", "suit":"clubs"}
+              ]
+            },
+            {
+              "name":"show",
+              "cards":[
+                {"rank":"king", "suit":"spades"},
+                {"rank":"king", "suit":"clubs"}
+              ]
+            },
             {"name":"win", "amount":320}
           ],
         }

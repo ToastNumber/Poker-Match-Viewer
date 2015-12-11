@@ -49,16 +49,18 @@ public class PlayerBubble {
 		g2.drawLine(x1, y1, x2, y1);
 		g2.drawLine(x1, y2, x2, y2);
 		
-		// Write the name
+		// Name
 		g2.setFont(FontUtils.getLargestPossibleFont(g2, (180 * radius) / 100, (50 * radius) / 100, name));
 		int nameWidth = g2.getFontMetrics().stringWidth(name);
 		g2.drawString(name, x - nameWidth/2, y + g2.getFontMetrics().getHeight() / 4);
 
+		// Action
 		g2.setColor(new Color(51, 215, 255));
-		g2.setFont(FontUtils.getLargestPossibleFont(g2, (120 * radius) / 100, (70 * radius)/100, action));
+		g2.setFont(FontUtils.getLargestPossibleFont(g2, (120 * radius) / 100, (45 * radius)/100, action));
 		int actionWidth = g2.getFontMetrics().stringWidth(action);
 		g2.drawString(action, x - actionWidth/2, y - (4 * radius) / 9);
 		
+		// Chip count
 		g2.setColor(Color.WHITE);
 		g2.setFont(FontUtils.getLargestPossibleFont(g2, radius, (50 * radius)/100, "" + chipCount));
 		int chipWidth = g2.getFontMetrics().stringWidth("" + chipCount);

@@ -3,14 +3,14 @@ package poker.play;
 import java.util.List;
 
 public class Hand {
-	private List<Event> events;
+	private List<Action> events;
 	private int eventIndex;
 
-	public Hand(List<Event> actions) {
+	public Hand(List<Action> actions) {
 		this.events = actions;
 	}
 
-	public List<Event> getActions() {
+	public List<Action> getActions() {
 		return events;
 	}
 
@@ -34,11 +34,20 @@ public class Hand {
 		return eventIndex == events.size() - 1;
 	}
 
-	public Event getEvent() {
+	public Action getEvent() {
 		return events.get(eventIndex);
 	}
 
 	public void start() {
 		eventIndex = 0;
 	}
+	
+	public int getResultingP1ChipCount() {
+		return events.get(events.size() - 1).getP1ChipCount();
+	}
+	
+	public int getResultingP2ChipCount() {
+		return events.get(events.size() - 1).getP2ChipCount();
+	}
+	
 }

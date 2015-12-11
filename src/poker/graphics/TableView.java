@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
 
 import poker.ResourceHandler;
 import poker.graphics.util.FontUtils;
-import poker.play.Event;
+import poker.play.Action;
 import poker.play.TourneyModel;
 
 public class TableView extends JPanel implements Observer {
@@ -22,15 +23,17 @@ public class TableView extends JPanel implements Observer {
 		this.model = model;
 	}
 
-	@Override
-	public void paintComponent(Graphics g) {
+	public void paintOpeningWindow(Graphics2D g2) {
+		Image opening = ResourceHandler.handler.GREETING_IMAGE;
+		if (opening != null) {
+			g2.drawImage(opening, 0, 0, getWidth(), getHeight(), null);
+		}
+	}
+
+	public void paintPlayWindow(Graphics2D g2) {
 		ResourceHandler handler = ResourceHandler.handler;
 		
-		Graphics2D g2 = (Graphics2D) g;
-		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		// RenderingHints.VALUE_ANTIALIAS_ON);
-
-		Event actionPoint = model.getActionPoint();
+		Action actionPoint = model.getActionPoint();
 
 		int width = getWidth();
 		int height = getHeight();
@@ -45,8 +48,9 @@ public class TableView extends JPanel implements Observer {
 		/*** End of poker table ***/
 
 		/*** Print "Starting/Playing match x of y" ***/
-		String startOfMatchMsg = String.format("%s match %d of %d", model.isFirstActionPoint() ? "Starting"
-				: "Playing", model.getMatchIndex() + 1, model.getNumMatches());
+		String startOfMatchMsg = String.format("%s match %d of %d",
+				model.isFirstHand() && model.isFirstActionPoint() ? "Starting" : "Playing",
+				model.getMatchIndex() + 1, model.getNumMatches());
 
 		g2.setFont(FontUtils.getLargestPossibleFont(g2, width / 4, height / 20, startOfMatchMsg));
 		g2.setColor(Color.WHITE);
@@ -55,9 +59,9 @@ public class TableView extends JPanel implements Observer {
 		int x = width / 20;
 
 		g2.drawString(startOfMatchMsg, x, y);
-		
+
 		String handNumMessage = String.format("Hand %d of %d", model.getHandIndex() + 1, model.getNumHands());
-		g2.setFont(FontUtils.getLargestPossibleFont(g2, width/4, height/20, handNumMessage));
+		g2.setFont(FontUtils.getLargestPossibleFont(g2, width / 4, height / 20, handNumMessage));
 		y += (5 * height) / 100;
 		g2.drawString(handNumMessage, x, y);
 		/*** End of info message ***/
@@ -65,7 +69,7 @@ public class TableView extends JPanel implements Observer {
 		/*** Draw the player bubbles ***/
 		int bubbleRadius = (7 * width) / 100;
 		int bubbleY = (17 * height) / 40;
-		
+
 		String p1Action = "";
 		String p2Action = "";
 		String action = "" + actionPoint.getPlayerAction();
@@ -75,15 +79,15 @@ public class TableView extends JPanel implements Observer {
 		} else if (actorIndex == 2) {
 			p2Action = action;
 		}
-			
+
 		p1Action = actionPoint.getActorIndex() == 1 ? "" + actionPoint.getPlayerAction() : "";
-		PlayerBubble p1Bubble = new PlayerBubble(model.getPlayer1Name(), p1Action, actionPoint.getP1Behind(),
-				(10 * width) / 100, bubbleY, bubbleRadius);
+		PlayerBubble p1Bubble = new PlayerBubble(model.getPlayer1Name(), p1Action, actionPoint.getP1ChipCount()
+				- actionPoint.getP1Bet(), (10 * width) / 100, bubbleY, bubbleRadius);
 		p1Bubble.draw(g2);
 
 		p2Action = actionPoint.getActorIndex() == 2 ? "" + actionPoint.getPlayerAction() : "";
-		PlayerBubble p2Bubble = new PlayerBubble(model.getPlayer2Name(), p2Action, actionPoint.getP2Behind(),
-				(90 * width) / 100, bubbleY, bubbleRadius);
+		PlayerBubble p2Bubble = new PlayerBubble(model.getPlayer2Name(), p2Action, actionPoint.getP2ChipCount()
+				- actionPoint.getP2Bet(), (90 * width) / 100, bubbleY, bubbleRadius);
 		p2Bubble.draw(g2);
 		/*** End bubbles ***/
 
@@ -170,7 +174,7 @@ public class TableView extends JPanel implements Observer {
 		/*** End pot ***/
 
 		/*** Draw betting chips ***/
-		if (actionPoint.getP1ChipCount() != actionPoint.getP1Behind()) {
+		if (actionPoint.getP1Bet() != 0) {
 			Image chips = handler.CHIPS;
 
 			if (chips != null) {
@@ -179,36 +183,44 @@ public class TableView extends JPanel implements Observer {
 
 				g2.drawImage(chips, (22 * width) / 100, (55 * height) / 100, chipWidth, chipHeight, null);
 
-				int betAmount = actionPoint.getP1ChipCount() - actionPoint.getP1Behind();
 				g2.setFont(FontUtils.getLargestPossibleFont(g2, (12 * width) / 100, (4 * height) / 100, ""
-						+ betAmount));
-				g2.drawString("" + betAmount, (29 * width) / 100, (60 * height) / 100);
+						+ actionPoint.getP1Bet()));
+				g2.drawString("" + actionPoint.getP1Bet(), (29 * width) / 100, (60 * height) / 100);
 			}
 		}
 
-		if (actionPoint.getP2ChipCount() != actionPoint.getP2Behind()) {
+		if (actionPoint.getP2Bet() != 0) {
 			Image chips = handler.CHIPS;
 			int chipWidth = (5 * width) / 100;
 			int chipHeight = (516 * chipWidth) / 630;
 
 			g2.drawImage(chips, (78 * width) / 100, (55 * height) / 100, chipWidth, chipHeight, null);
 
-			int betAmount = actionPoint.getP2ChipCount() - actionPoint.getP2Behind();
 			g2.setFont(FontUtils.getLargestPossibleFont(g2, (12 * width) / 100, (4 * height) / 100, ""
-					+ betAmount));
-			g2.drawString("" + betAmount, (71 * width) / 100, (60 * height) / 100);
+					+ actionPoint.getP2Bet()));
+			g2.drawString("" + actionPoint.getP2Bet(), (71 * width) / 100, (60 * height) / 100);
 		}
 		/*** End betting chips ***/
 
 		/*** Draw dealer button ***/
 		Image dealerButton = handler.DEALER_BUTTON;
-		
+
 		if (dealerButton != null) {
 			int dealerX = actionPoint.getButtonIndex() == 1 ? (18 * width) / 100 : (77 * width) / 100;
 			int dealerWidth = (5 * width) / 100;
 			g2.drawImage(dealerButton, dealerX, (43 * height) / 100, dealerWidth, dealerWidth, null);
 		}
 		/*** End dealer button ***/
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		if (model.getNumMatches() == 0) paintOpeningWindow(g2);
+		else paintPlayWindow(g2);
+		
 	}
 
 	@Override

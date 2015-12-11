@@ -1,12 +1,21 @@
 package poker.graphics;
 
 import java.awt.FlowLayout;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.json.simple.parser.ParseException;
+
+import poker.parse.PokerFileParser;
+import poker.play.Tourney;
 import poker.play.TourneyModel;
 
 public class ControlPanel extends JPanel implements Observer {
@@ -16,6 +25,7 @@ public class ControlPanel extends JPanel implements Observer {
 	private final JButton btnNextHand;
 	private final JButton btnPrevMatch;
 	private final JButton btnNextMatch;
+	private final JButton btnOpenTourney;
 	private final TourneyModel model;
 
 	public ControlPanel(TourneyModel model) {
@@ -23,8 +33,9 @@ public class ControlPanel extends JPanel implements Observer {
 
 		this.model = model;
 
-		btnBackward = new JButton("Previous");
+		btnBackward = new JButton("◄");
 		btnBackward.setFocusable(false);
+		btnBackward.setEnabled(false);
 		btnBackward.addActionListener(e -> {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
@@ -35,8 +46,9 @@ public class ControlPanel extends JPanel implements Observer {
 			t.start();
 		});
 
-		btnForward = new JButton("Next");
+		btnForward = new JButton("►");
 		btnForward.setFocusable(false);
+		btnForward.setEnabled(false);
 		btnForward.addActionListener(e -> {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
@@ -49,6 +61,7 @@ public class ControlPanel extends JPanel implements Observer {
 		
 		btnPrevHand = new JButton("Previous hand");
 		btnPrevHand.setFocusable(false);
+		btnPrevHand.setEnabled(false);
 		btnPrevHand.addActionListener(e -> {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
@@ -61,6 +74,7 @@ public class ControlPanel extends JPanel implements Observer {
 		
 		btnNextHand = new JButton("Next hand");
 		btnNextHand.setFocusable(false);
+		btnNextHand.setEnabled(false);
 		btnNextHand.addActionListener(e -> {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
@@ -73,6 +87,7 @@ public class ControlPanel extends JPanel implements Observer {
 
 		btnPrevMatch = new JButton("Previous match");
 		btnPrevMatch.setFocusable(false);
+		btnPrevMatch.setEnabled(false);
 		btnPrevMatch.addActionListener(e -> {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
@@ -85,10 +100,52 @@ public class ControlPanel extends JPanel implements Observer {
 		
 		btnNextMatch = new JButton("Next match");
 		btnNextMatch.setFocusable(false);
+		btnNextMatch.setEnabled(false);
 		btnNextMatch.addActionListener(e -> {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
 					model.nextMatch();
+				}
+			});
+
+			t.start();
+		});
+
+		btnOpenTourney = new JButton("Open Tournament");
+		btnOpenTourney.setFocusable(false);
+		btnOpenTourney.addActionListener(e -> {
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					final JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+					// Only allow a single directory to be selected.
+					fc.setMultiSelectionEnabled(false);
+					fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+					// Show the dialog
+					int option = fc.showOpenDialog(null);
+					
+					// If the user selected a file and clicked 'Open'
+					if (option == JFileChooser.APPROVE_OPTION) {
+						// Then set the text of the field to the selected
+						// directory.
+						File file = fc.getSelectedFile();
+						Tourney t;
+						try {
+							t = PokerFileParser.parseTourney(file.getAbsolutePath());
+							model.ofTourney(t);
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e.getMessage());
+						} catch (IOException e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e.getMessage());
+						} catch (ParseException e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e.getMessage());
+						}
+						
+					}
 				}
 			});
 
@@ -102,9 +159,7 @@ public class ControlPanel extends JPanel implements Observer {
 		add(btnNextHand);
 		add(btnPrevMatch);
 		add(btnNextMatch);
-		
-		// Set the enabled states of the buttons
-		update(null, null);
+		add(btnOpenTourney);
 	}
 
 	@Override
